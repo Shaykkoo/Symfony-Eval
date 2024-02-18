@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+
+
+    {% if app.user %}
+        <div class="mb-3">
+            {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Se déconnecter</a>
+        </div>
+    {% endif %}
+
+    {% if app.user is same as null %}
+        <div class="mb-3">
+            <a href="{{path('app_register')}}">S'inscrire</a>
+
+            <a href="{{path('app_login')}}">Se connecter</a>
+        </div>
+    {% endif %}
+
+    
+
+{% endblock %}

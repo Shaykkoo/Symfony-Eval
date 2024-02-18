@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article index{% endblock %}
+
+{% block body %}
+
+    {% include 'base.html.twig' %}
+
+    <h1>Article index</h1>
+
+    <table class="table">
+        
+        <tbody>
+        {% for article in articles %}
+                {% if article.etat is same as "actif" %}
+            <tr>
+                <td>{{ article.Titre }}</td>
+                <td>{{ article.contenu }}</td>
+                <td>{{ article.dateCreation ? article.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ article.etat }}</td>
+                <td>{{ article.dateDeParution ? article.dateDeParution|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_article_show', {'id': article.id}) }}">Voir l'article</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_article_edit', {'id': article.id}) }}">Modifié l'article</a>
+                {% endif %}
+                </td>
+            </tr>
+                {% endif %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <td>{{ article.Titre }}</td>
+                    <td>{{ article.contenu }}</td>
+                    <td>{{ article.dateCreation ? article.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ article.etat }}</td>
+                    <td>{{ article.dateDeParution ? article.dateDeParution|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_article_show', {'id': article.id}) }}">Voir l'article</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_article_edit', {'id': article.id}) }}">Modifié l'article</a>
+                    {% endif %}
+                    </td>
+                </tr>
+                    {% endif %}
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_article_new') }}">Ajouter un article</a>
+    {% endif %}
+    <a href="{{ path('app_categorie_index') }}">Liste des catégories</a>
+
+{% endblock %}

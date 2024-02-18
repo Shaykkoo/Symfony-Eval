@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+    {% include 'base.html.twig' %}
+
+    <h1>Article</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ article.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ article.Titre }}</td>
+            </tr>
+            <tr>
+                <th>Contenu</th>
+                <td>{{ article.contenu }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ article.dateCreation ? article.dateCreation|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Etat</th>
+                <td>{{ article.etat }}</td>
+            </tr>
+            <tr>
+                <th>DateDeParution</th>
+                <td>{{ article.dateDeParution ? article.dateDeParution|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('app_article_index') }}">Liste des articles</a>
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <a href="{{ path('app_article_edit', {'id': article.id}) }}">Modifié</a>
+
+    
+
+    {{ include('article/_delete_form.html.twig') }}
+    {% endif %}
+    <h3>Commentaires :</h3>
+
+    {% for commentaire in commentArt %}
+        {{commentaire.commentaire}} <br>
+        {{commentaire.auteur.username}} 
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{path('commentaire_delete', {id:commentaire.id})}}">Supprimer</a>
+        {% endif %}
+    {% endfor %}
+
+
+{% endblock %}

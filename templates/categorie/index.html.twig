@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Categorie index{% endblock %}
+
+{% block body %}
+
+    {% include 'security/_loginButton.html.twig' %}
+
+    <h1>Categorie index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categorie in categories %}
+            <tr>
+                <td>{{ categorie.Titre }}</td>
+                <td>
+                    /// <a href="{{ path('app_categorie_show', {'id': categorie.id}) }}">Voir la catégorie</a> {% if is_granted('ROLE_ADMIN') %} ||
+                    
+                    <a href="{{ path('app_categorie_edit', {'id': categorie.id}) }}">Modifier la catégorie</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+    <a href="{{ path('app_categorie_new') }}">Créer une catégorie</a>
+    {% endif %}
+{% endblock %}
